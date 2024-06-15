@@ -1,0 +1,20 @@
+  create
+  or replace function get_all_user_notes(user_id uuid)
+  returns table (
+    lat float,
+    long float,
+    title text,
+    body text,
+    id integer,
+    visibility text
+  ) language sql as $$
+  select
+    st_y(location :: geometry) as lat,
+    st_x(location :: geometry) as long,
+    title,
+    body,
+    id,
+    visibility
+  from public.map_notes
+  where public.map_notes.user_id = user_id
+  $$;

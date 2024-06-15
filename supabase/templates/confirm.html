@@ -1,0 +1,12 @@
+<html>
+  <body>
+    <h2>Confirm your sign up</h2>
+    <p>click the link to confirm your email sign up to geo notes ...</p>
+    <p>
+      <a
+        href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=signup"
+        >Confirm your email</a
+      >
+    </p>
+  </body>
+</html>
