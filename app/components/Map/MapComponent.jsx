@@ -24,10 +24,7 @@ export default function MapComponent({
   publicNotes,
   zoom,
 }) {
-  // const zoom = 14;
-
   const [marker, setMarker] = useState(null);
-  // const [mapNotes, setMapNotes] = useState(notes ? notes : publicNotes);
   const mapNotes = notes ? notes : publicNotes;
 
   const icon = L.divIcon({
@@ -51,14 +48,10 @@ export default function MapComponent({
 
   useEffect(() => {
     if (marker) {
-      console.log(marker);
       marker.openPopup();
     }
   }, [marker]);
 
-  // useEffect(() => {
-  //   setMapNotes(notes ? notes : publicNotes);
-  // }, [notes, publicNotes]);
   return (
     <MapContainer
       className="rounded z-0"

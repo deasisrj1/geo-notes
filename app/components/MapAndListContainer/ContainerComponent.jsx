@@ -44,7 +44,6 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
         const targetElement = document.body.querySelector(
           `[id*="note-${highlightNoteId}"]`
         );
-        // console.log(targetElement);
         if (targetElement) {
           targetElement.scrollIntoView({ behavior: "smooth" });
         }

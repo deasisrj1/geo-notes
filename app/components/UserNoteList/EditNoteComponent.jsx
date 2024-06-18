@@ -25,11 +25,9 @@ export default function EditNoteComponent({
     setEditTitle(noteData.title);
     setEditVisibility(noteData.visibility);
     if (marker) {
-      console.log(marker.zIndexOffset);
       marker.setZIndexOffset(100);
       marker.dragging.enable();
       marker.on("moveend", (m) => {
-        // console.log(m);
         const { lat, lng } = m.sourceTarget._latlng;
         setEditMarkerPos([lat, lng]);
         marker.openPopup();
@@ -135,7 +133,6 @@ export default function EditNoteComponent({
           >
             Visibility:
           </label>
-          {console.log(editVisibility)}
           <select
             value={editVisibility}
             onChange={(e) => setEditVisibility(e.target.value)}

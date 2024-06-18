@@ -29,7 +29,6 @@ export default function PublicNoteListComponent({
               : "dark:bg-neutral-800"
           }`}
         >
-          {/* {console.log(note)} */}
           <p className="px-4 py-1 border-b border-neutral-950 w-full flex text-sm">
             {note.firstname}
           </p>

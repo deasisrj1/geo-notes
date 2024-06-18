@@ -5,8 +5,6 @@ import { redirect } from "next/navigation";
 
 export async function addMapNote(formData) {
   const supabase = createClient();
-
-  console.log(formData);
   const mapNotes = {
     user_id: formData.get("userId"),
     title: formData.get("title"),
@@ -14,8 +12,6 @@ export async function addMapNote(formData) {
     location: `POINT(${formData.get("longitude")} ${formData.get("latitude")})`,
     visibility: formData.get("visibility"),
   };
-
-  console.log(mapNotes);
   const insertResponse = await supabase.from("map_notes").insert([mapNotes]);
 
   if (insertResponse.error) {
@@ -59,11 +55,9 @@ export async function loadPublicNotesInBounds(bounds) {
     }
   );
   if (error && status !== 406) {
-    console.log(error);
+    console.error(error);
     throw error;
   }
-
-  // console.log(data, "WOWOW");
 
   revalidatePath("/", "layout");
   return data;
