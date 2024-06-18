@@ -11,6 +11,34 @@ create a .env.local file
 -- $ supabase start
 -- if needed: $ supabase migraation args...
 -- $ supabase db reset 
+-- make a copy of .env.local.example in root directory
+-- rename the copy .env.local
+-- fill in .env.local with the values in terminal when you ran:  $ supabase start
+-- go to your supabase folder and find config.toml
+-- replace the value: enable_confirmations = false
+-- under [auth.email] 
+-- if you want to disable email verification, ie: signup without confirming in local dev, change this in production
+-- or instead you can add this in signup logic:
+ const data = {
+    email: formData.get("email"),
+    password: formData.get("password"),
+    options: {
+      data: {
+        confirmation_sent_at: Date.now(),
+        firstName: formData.get("firstname"),
+        lastName: formData.get("lastname"),
+      },
+    },
+  };
+
+  const { error } = await supabase.auth.signUp(data);
+
+
+If you are running into some issues, you might have to stop and start supabase again in docker
+
+
+
+
 
 First, run the development server:
 
@@ -29,6 +57,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+
+
+## Tracking, logs, error monitoring, feedback and observability
+
+Vercel - Backend only
+Sentry - Frontend only
 
 ## Learn More
 
