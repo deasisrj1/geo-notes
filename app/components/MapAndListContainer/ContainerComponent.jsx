@@ -122,6 +122,11 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
           <div className="absolute text-xs mt-4 left-0 right-0 grid place-items-center text-black z-9999">
             <button
               onClick={() => {
+                const marker = markersRef.current[`${highlightNoteId}`];
+                if (marker) {
+                  marker.closePopup();
+                  setHighlightNoteId(null);
+                }
                 setBoundButtonClicked(true);
                 setBoundsChange(false);
               }}
