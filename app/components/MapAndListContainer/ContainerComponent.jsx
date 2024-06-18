@@ -23,7 +23,8 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
   const [map, setMap] = useState(null);
   const [publicNotes, setPublicNotes] = useState([]);
   const [zoom, setZoom] = useState(13);
-  const [mapBounds, setMapBounds] = useState({});
+  const [boundsChange, setBoundsChange] = useState(false);
+  const [boundButtonClicked, setBoundButtonClicked] = useState(true);
 
   const markersRef = useRef({});
   const mapRef = useRef(null);
@@ -48,14 +49,14 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
           targetElement.scrollIntoView({ behavior: "smooth" });
         }
       } catch (e) {
-        console.log(e, "container component");
+        console.error(e, "container component");
       }
     }
   }, [highlightNoteId]);
 
   useEffect(() => {
     async function getPublicNotes() {
-      if (map && !user) {
+      if (map && !user && boundButtonClicked) {
         const bounds = map.target.getBounds();
         const maxLong = bounds.getEast();
         const minLong = bounds.getWest();
@@ -69,22 +70,21 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
           maxLong,
         });
 
-        console.log(data);
-        console.log("here");
-
         setPublicNotes(data);
+        setBoundButtonClicked(false);
       }
     }
     getPublicNotes();
-  }, [map, user, zoom]);
+    // }, [map, user, zoom]);
+  }, [map, user, boundsChange]);
 
   useEffect(() => {
-    // TODO change to a button for update for new notes in the area
-    // TODO do for change of bounds when map is moved
     if (map) {
       map.target.on("zoomend", (m) => {
-        setZoom(m.target.getZoom());
-        console.log(m.target.getZoom(), "MAP ZOOMEND");
+        setBoundsChange(true);
+      });
+      map.target.on("moveend", (m) => {
+        setBoundsChange(true);
       });
     }
   }, [map]);
@@ -116,7 +116,22 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
 
   return (
     <div className="rounded max-h-screen lg:overflow-y-auto flex-1 w-full flex flex-row py-2 lg:flex-row sm:flex-col md:flex-col xs:flex-col sm:overflow-y-scroll">
-      <Map {...mapProps} />
+      <div className="relative flex flex-col w-full">
+        <Map {...mapProps} />
+        {boundsChange && !user && (
+          <div className="absolute text-xs mt-4 left-0 right-0 grid place-items-center text-black z-9999">
+            <button
+              onClick={() => {
+                setBoundButtonClicked(true);
+                setBoundsChange(false);
+              }}
+              className="font-bold rounded-full p-2 bg-white w-1/8 shadow-inner shadow-md border"
+            >
+              🔍 Get notes in area
+            </button>
+          </div>
+        )}
+      </div>
       <div className=" flex flex-col overflow-y-auto  lg:basis-1/3 md:basis-2/3   bg-neutral-950 ml-2 rounded">
         <div className="flex block border-b-2 border-neutral-900 w-full">
           {/* <input type="hidden" name="userId" id="userId" value={user?.id} /> */}

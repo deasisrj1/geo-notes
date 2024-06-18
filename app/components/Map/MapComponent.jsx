@@ -61,7 +61,7 @@ export default function MapComponent({
   // }, [notes, publicNotes]);
   return (
     <MapContainer
-      className="rounded"
+      className="rounded z-0"
       center={markerPos}
       zoom={zoom}
       scrollWheelZoom={true}
