@@ -2,6 +2,16 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+### Env variables
+create a .env.local file
+
+### Supabase setup
+[Run supabase locally](https://supabase.com/docs/guides/cli/local-development?queryGroups=access-method&access-method=kong)
+
+-- $ supabase start
+-- if needed: $ supabase migraation args...
+-- $ supabase db reset 
+
 First, run the development server:
 
 ```bash
