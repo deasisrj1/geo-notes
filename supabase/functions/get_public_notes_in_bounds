@@ -1,0 +1,127 @@
+/////
+create
+or replace function get_public_notes_in_bounds(
+min_lat float, min_long float, max_lat float, max_long float ) returns table (
+  id public.map_notes.id % TYPE, title public.map_notes. title % TYPE, body public.map_notes.body % TYPE , lat float, long float,
+  firstName text
+  ) language sql as 
+  $$
+  
+  select mn.id, mn.title, mn.body,
+  st_y(mn.location :: geometry) as lat, st_x(mn.location :: geometry) as long,
+  (select first_name from public.users u where u.auth_id = mn.user_id) as firstName
+from
+  public.map_notes mn
+where
+   visibility = 'PUBLIC'
+ and
+  location && ST_SetSRID(
+  ST_MakeBox2D(
+  ST_Point (min_long, min_lat),
+  ST_Point (max_long, max_lat)
+  ),
+  4326
+  ) 
+   $$;
+
+
+
+/////
+# create
+# or replace function get_public_notes_in_bounds(
+# min_lat float, min_long float, max_lat float, max_long float ) returns table (
+#   id public.map_notes.id % TYPE, title public.map_notes. title % TYPE, body public.map_notes.body % TYPE , lat float, long float,
+#   firstName text
+#   ) language sql as $$ select mn.id, mn.title, mn.body,
+#   st_y(mn.location :: geometry) as lat, st_x(mn.location :: geometry) as long,
+#   u.raw_user_meta_data->>'firstName' as firstName
+#   from
+#   public.map_notes mn
+#   inner join 
+#   auth.users u 
+#   on 
+#   u.id = mn.user_id
+#      where
+#    visibility = 'PUBLIC' and
+#   location && ST_SetSRID(
+#   ST_MakeBox2D(
+#   ST_Point (min_long, min_lat),
+#   ST_Point (max_long, max_lat)
+#   ),
+#   4326
+#   ) 
+#    $$;
+
+
+
+# create
+# or replace function get_public_notes_in_bounds(
+# min_lat float, min_long float, max_lat float, max_long float ) returns table (
+#   id public.map_notes.id % TYPE, title public.map_notes. title % TYPE, body public.map_notes.body % TYPE , lat float, long float
+#   ) language sql as $$ select id, title, body,
+#   st_y(location :: geometry) as lat, st_x(location :: geometry) as long
+#   from
+#   public.map_notes 
+#      where
+#    visibility = 'PUBLIC' and
+#   location && ST_SetSRID(
+#   ST_MakeBox2D(
+#   ST_Point (min_long, min_lat),
+#   ST_Point (max_long, max_lat)
+#   ),
+#   4326
+#   ) 
+#    $$;
+
+
+#   select * from get_public_notes_in_bounds(53.5132658454116, -113.52739334106447, 53.578951907534005, -113.46027374267578);
+
+
+
+
+#      create
+#     or replace function get_public_notes_in_bounds(
+#     min_lat float, min_long float, max_lat float, max_long float ) returns table (
+#   id public.map_notes.id % TYPE, title public.map_notes. title % TYPE, lat float, long float
+#   ) language sql as $$ select id, title,
+#   st_y(location :: geometry) as lat, st_x(location :: geometry) as long
+#   from
+#   public.map_notes where
+#   location && ST_SetSRID(
+#   ST_MakeBox2D(
+#   ST_Point (min_long, min_lat),
+#   ST_Point (max_long, max_lat)
+#   ),
+#   4326
+#   ) and
+#   visibility = "PUBLIC"
+#    $$;
+
+
+
+
+
+
+
+
+
+
+
+
+# alter policy "Users can view their own notes"
+
+
+# on "public"."map_notes"
+
+
+# to public
+
+
+# using (
+
+
+#   (auth.uid() = user_id)
+
+# );
+
+# Users can view their own notes

@@ -45,6 +45,31 @@ export async function deleteMapNote(formData) {
   redirect("/");
 }
 
+export async function loadPublicNotesInBounds(bounds) {
+  const supabase = createClient();
+  const { minLat, minLong, maxLat, maxLong } = bounds;
+
+  const { data, error, status } = await supabase.rpc(
+    "get_public_notes_in_bounds",
+    {
+      min_lat: minLat,
+      min_long: minLong,
+      max_lat: maxLat,
+      max_long: maxLong,
+    }
+  );
+  if (error && status !== 406) {
+    console.log(error);
+    throw error;
+  }
+
+  // console.log(data, "WOWOW");
+
+  revalidatePath("/", "layout");
+  return data;
+  // redirect("/")
+}
+
 export async function loadUserMapNotes(userId) {
   const supabase = createClient();
 

@@ -62,7 +62,8 @@ export default function EditNoteComponent({
               //   );
               // }
               if (marker) {
-                marker.setPopupContent(``);
+                // marker.setPopupContent(`a`);
+                marker.dragging.disable();
               }
 
               setShowEdit(false);

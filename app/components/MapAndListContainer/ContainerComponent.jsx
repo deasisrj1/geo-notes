@@ -1,5 +1,9 @@
 "use client";
-import { addMapNote, deleteMapNote } from "@/app/actions/map-notes/actions";
+import {
+  addMapNote,
+  deleteMapNote,
+  loadPublicNotesInBounds,
+} from "@/app/actions/map-notes/actions";
 // import { createClient } from "@/utils/supabase/client";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -7,6 +11,7 @@ import { NEW_NOTE, MY_NOTES } from "@/app/enums/noteEnums";
 import HeaderComponent from "../NoteListHeader/HeaderComponent";
 import UserNoteListComponent from "../UserNoteList/UserNoteListComponent";
 import NewNoteComponent from "../AddNewNote/NewNoteComponent";
+import PublicNoteListComponent from "../PublicNoteList/PublicNoteListComponent";
 
 export default function MapAndListContainerComponent({ user, userMapNotes }) {
   const [markerPos, setMarkerPos] = useState([53.5461, -113.4938]);
@@ -14,6 +19,11 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
   const [body, setBody] = useState("");
   const [currentTab, setCurrentTab] = useState(NEW_NOTE);
   const [highlightNoteId, setHighlightNoteId] = useState(null);
+  const [search, setSearch] = useState("");
+  const [map, setMap] = useState(null);
+  const [publicNotes, setPublicNotes] = useState([]);
+  const [zoom, setZoom] = useState(13);
+  const [mapBounds, setMapBounds] = useState({});
 
   const markersRef = useRef({});
   const mapRef = useRef(null);
@@ -43,6 +53,42 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
     }
   }, [highlightNoteId]);
 
+  useEffect(() => {
+    async function getPublicNotes() {
+      if (map && !user) {
+        const bounds = map.target.getBounds();
+        const maxLong = bounds.getEast();
+        const minLong = bounds.getWest();
+        const maxLat = bounds.getNorth();
+        const minLat = bounds.getSouth();
+
+        const data = await loadPublicNotesInBounds({
+          minLat,
+          minLong,
+          maxLat,
+          maxLong,
+        });
+
+        console.log(data);
+        console.log("here");
+
+        setPublicNotes(data);
+      }
+    }
+    getPublicNotes();
+  }, [map, user, zoom]);
+
+  useEffect(() => {
+    // TODO change to a button for update for new notes in the area
+    // TODO do for change of bounds when map is moved
+    if (map) {
+      map.target.on("zoomend", (m) => {
+        setZoom(m.target.getZoom());
+        console.log(m.target.getZoom(), "MAP ZOOMEND");
+      });
+    }
+  }, [map]);
+
   const newNoteProps = {
     title: title,
     body: body,
@@ -62,36 +108,67 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
     mapRef,
     setHighlightNoteId: setHighlightNoteId,
     setCurrentTab,
+    user,
+    setMap,
+    publicNotes,
+    zoom,
   };
 
   return (
     <div className="rounded max-h-screen lg:overflow-y-auto flex-1 w-full flex flex-row py-2 lg:flex-row sm:flex-col md:flex-col xs:flex-col sm:overflow-y-scroll">
       <Map {...mapProps} />
-
-      {user ? (
-        <div className=" flex flex-col overflow-y-auto  lg:basis-1/3 md:basis-2/3   bg-neutral-950 ml-2 rounded">
-          <HeaderComponent
-            currentTab={currentTab}
-            setCurrentTab={setCurrentTab}
-            user={user}
+      <div className=" flex flex-col overflow-y-auto  lg:basis-1/3 md:basis-2/3   bg-neutral-950 ml-2 rounded">
+        <div className="flex block border-b-2 border-neutral-900 w-full">
+          {/* <input type="hidden" name="userId" id="userId" value={user?.id} /> */}
+          <label
+            htmlFor="search"
+            className=" py-2 block text-lg font-medium"
+          ></label>
+          <input
+            id="search"
+            name="search"
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search"
+            required
+            className="block m-4 p-2.5 w-full text-md  bg-gray-50 rounded-full border border-gray-300  focus:ring-blue-500 focus:border-blue-500 dark:bg-neutral-800 dark:border-gray-600 dark:placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
-
-          {currentTab === NEW_NOTE ? (
-            <NewNoteComponent {...newNoteProps} />
-          ) : (
-            <UserNoteListComponent
-              markersRef={markersRef}
-              mapRef={mapRef}
-              userMapNotes={userMapNotes}
-              user={user}
-              highlightNoteId={highlightNoteId}
-              setHighlightNoteId={setHighlightNoteId}
-            />
-          )}
         </div>
-      ) : (
-        <></>
-      )}
+        {user ? (
+          // <div className=" flex flex-col overflow-y-auto  lg:basis-1/3 md:basis-2/3   bg-neutral-950 ml-2 rounded">
+          <>
+            <HeaderComponent
+              currentTab={currentTab}
+              setCurrentTab={setCurrentTab}
+              user={user}
+            />
+
+            {currentTab === NEW_NOTE ? (
+              <NewNoteComponent {...newNoteProps} />
+            ) : (
+              <UserNoteListComponent
+                markersRef={markersRef}
+                mapRef={mapRef}
+                userMapNotes={userMapNotes}
+                user={user}
+                highlightNoteId={highlightNoteId}
+                setHighlightNoteId={setHighlightNoteId}
+              />
+            )}
+            {/* </div> */}
+          </>
+        ) : (
+          <>
+            <PublicNoteListComponent
+              publicNotes={publicNotes}
+              mapRef={mapRef}
+              markersRef={markersRef}
+              highlightNoteId={highlightNoteId}
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 }
