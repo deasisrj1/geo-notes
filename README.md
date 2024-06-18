@@ -7,7 +7,7 @@ create a .env.local file
 
 ### Supabase setup
 [Run supabase locally](https://supabase.com/docs/guides/cli/local-development?queryGroups=access-method&access-method=kong)
-
+```
 -- $ supabase start
 -- if needed: $ supabase migraation args...
 -- $ supabase db reset 
@@ -35,7 +35,7 @@ create a .env.local file
 
 
 If you are running into some issues, you might have to stop and start supabase again in docker
-
+```
 
 
 
