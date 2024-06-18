@@ -9,7 +9,7 @@ create a .env.local file
 [Run supabase locally](https://supabase.com/docs/guides/cli/local-development?queryGroups=access-method&access-method=kong)
 ```
 -- $ supabase start
--- if needed: $ supabase migraation args...
+-- if needed: $ supabase migration args...
 -- $ supabase db reset 
 -- make a copy of .env.local.example in root directory
 -- rename the copy .env.local
