@@ -19,10 +19,13 @@ export default function MapComponent({
   mapRef,
   setHighlightNoteId,
   setCurrentTab,
+  user,
+  setMap,
+  publicNotes,
+  zoom,
 }) {
-  const zoom = 13;
-  const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
+  const mapNotes = notes ? notes : publicNotes;
 
   const icon = L.divIcon({
     className: "custom-marker-icon",
@@ -40,18 +43,18 @@ export default function MapComponent({
         <div style="width: 18px; height: 18px; background-color: ${"springgreen"}; border-radius: 50%; border-bottom-right-radius: 0;"></div>
       </div>`,
     iconSize: [20, 20],
-    iconAnchor: [10, 15], // Adjust for icon type
+    iconAnchor: [20, 20], // Adjust for icon type
   });
 
   useEffect(() => {
     if (marker) {
-      console.log(marker);
       marker.openPopup();
     }
   }, [marker]);
+
   return (
     <MapContainer
-      className="rounded"
+      className="rounded z-0"
       center={markerPos}
       zoom={zoom}
       scrollWheelZoom={true}
@@ -66,7 +69,7 @@ export default function MapComponent({
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {notes?.map((note) => (
+      {mapNotes?.map((note) => (
         <Marker
           eventHandlers={{
             click: (m) => {
@@ -91,7 +94,7 @@ export default function MapComponent({
           icon={icon}
         >
           <Popup>
-            <h1>{note.title}</h1>
+            <h1 className="font-bold text-sm">{note.title}</h1>
             <p>{note.body}</p>
           </Popup>
         </Marker>
@@ -117,9 +120,15 @@ export default function MapComponent({
           },
         }}
       >
-        <Popup>
-          <h1>{title || "Add A Title"}</h1>
-          <p>{body || "Create a new note, drag the marker"}</p>
+        <Popup className="text-xs">
+          <h1 className="font-bold text-sm">
+            {title || (user && "Add A Title") || "Welcome"}
+          </h1>
+          <p>
+            {body ||
+              (user && "Create a new note, drag the marker") ||
+              "Login to create a new note, drag the marker"}
+          </p>
         </Popup>
       </Marker>
     </MapContainer>

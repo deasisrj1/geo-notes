@@ -12,21 +12,15 @@ export default function UserNoteListComponent({
 }) {
   const [showEdit, setShowEdit] = useState(false);
   const [noteData, setNoteData] = useState({});
-  // const [highlightNoteId, setHighlightNoteId] = useState(null);
 
   const handleNoteClick = (id) => {
-    // setHighlightNoteId(id);
     const map = mapRef.current;
     if (!map) {
       return;
     }
 
     const marker = markersRef.current[`${id}`];
-
     map.target.flyTo(marker._latlng), 13;
-
-    // marker.dragging.enable();
-    console.log(marker);
     if (marker) {
       marker.openPopup();
     }
@@ -36,18 +30,14 @@ export default function UserNoteListComponent({
     if (showEdit) {
       try {
         const targetElement = document.body.querySelector(`.EDIT-DIV`);
-        // console.log(targetElement);
         if (targetElement) {
           targetElement.scrollIntoView({ behavior: "smooth" });
         }
       } catch (e) {
-        console.log(e, "[showEdit] useEffect");
+        console.error(e, "[showEdit] useEffect");
       }
     }
   }, [showEdit]);
-  // useEffect(() => {}, [highlightNoteId]);
-
-  // TODO: ONLY ENABLE DRAGGING WHEN EDIT BUTTON IS CLICKED
 
   return (
     <>
@@ -89,7 +79,6 @@ export default function UserNoteListComponent({
             <button
               type=""
               onClick={() => {
-                console.log(note);
                 setNoteData((prev) => {
                   if (prev) {
                     const marker = markersRef.current[`${prev.id}`];
@@ -113,12 +102,11 @@ export default function UserNoteListComponent({
                   try {
                     const targetElement =
                       document.body.querySelector(`.EDIT-DIV`);
-                    // console.log(targetElement);
                     if (targetElement) {
                       targetElement.scrollIntoView({ behavior: "smooth" });
                     }
                   } catch (e) {
-                    console.log(e, "user note list");
+                    console.error(e, "user note list");
                   }
                 }
               }}
