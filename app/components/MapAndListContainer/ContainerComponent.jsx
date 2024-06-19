@@ -115,7 +115,7 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
 
   return (
     <div className="rounded max-h-screen lg:overflow-y-auto flex-1 w-full flex flex-row py-2 lg:flex-row sm:flex-col md:flex-col xs:flex-col sm:overflow-y-scroll">
-      <div className="relative flex flex-col w-full h-full">
+      <div className="relative flex flex-col w-full h-full  border border-neutral-900 rounded">
         <Map {...mapProps} />
         {boundsChange && currentTab === PUBLIC_NOTES && (
           <div className="absolute text-xs mt-4 left-0 right-0 grid place-items-center text-black z-9999">
@@ -136,7 +136,7 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
           </div>
         )}
       </div>
-      <div className=" flex flex-col overflow-y-auto  lg:basis-1/3 md:basis-2/3   bg-neutral-950 ml-2 rounded">
+      <div className=" flex flex-col overflow-y-auto  lg:basis-1/3 md:basis-2/3   bg-neutral-950 ml-2 rounded border border-neutral-900">
         <div className="flex block border-b-2 border-neutral-900 w-full">
           {/* <input type="hidden" name="userId" id="userId" value={user?.id} /> */}
           <label

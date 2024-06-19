@@ -17,7 +17,7 @@ export default function NewNoteComponent({
             setBody("");
             setTitle("");
           }}
-          className="bg-neutral-950	p-5"
+          className="bg-neutral-950	p-2"
         >
           {markerPos}
           <input

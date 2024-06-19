@@ -2,7 +2,7 @@ import { NEW_NOTE, MY_NOTES, PUBLIC_NOTES } from "@/app/enums/noteEnums";
 
 export default function HeaderComponent({ currentTab, setCurrentTab, user }) {
   return (
-    <nav className="flex flex-row p-4 bg-neutral-950 ">
+    <nav className="flex flex-row p-2 bg-neutral-950 ">
       <div className="container flex items-center justify-between overflow-x-auto ">
         <ul className="flex space-x-2">
           {user ? (
