@@ -18,6 +18,7 @@ create a .env.local file
 -- replace the value: enable_confirmations = false
 -- under [auth.email] 
 -- if you want to disable email verification, ie: signup without confirming in local dev, change this in production
+-- go to http://localhost:54324/monitor to confirm email verification after sign up
 -- or instead you can add this in signup logic:
  const data = {
     email: formData.get("email"),
