@@ -12,20 +12,19 @@ import L, { popup } from "leaflet";
 export default function MapComponent({
   markerPos,
   handleMarkerDragged,
-  notes,
   title,
   body,
   markersRef,
   mapRef,
   setHighlightNoteId,
   setCurrentTab,
+  currentTab,
   user,
   setMap,
-  publicNotes,
   zoom,
+  mapNotes,
 }) {
   const [marker, setMarker] = useState(null);
-  const mapNotes = notes ? notes : publicNotes;
 
   const icon = L.divIcon({
     className: "custom-marker-icon",
@@ -73,7 +72,7 @@ export default function MapComponent({
         <Marker
           eventHandlers={{
             click: (m) => {
-              setCurrentTab(MY_NOTES);
+              if (currentTab === NEW_NOTE) setCurrentTab(MY_NOTES);
               setHighlightNoteId(note?.id);
             },
             popupclose: () => {
