@@ -20,7 +20,10 @@ export default function SignupPage() {
             required
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
-          <label htmlFor="email" className="block text-gray-300 font-bold mb-2">
+          <label
+            htmlFor="lastname"
+            className="block text-gray-300 font-bold mb-2"
+          >
             Last Name:
           </label>
           <input

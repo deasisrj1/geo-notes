@@ -53,11 +53,11 @@ export default function MapComponent({
 
   return (
     <MapContainer
-      className="rounded z-0"
+      className="rounded z-0 w-full h-full"
       center={markerPos}
       zoom={zoom}
       scrollWheelZoom={true}
-      style={{ width: "100%", height: "100%" }}
+      // style={{ width: "100%", height: "100%" }}
       whenReady={(map) => {
         setMap(map);
         mapRef.current = map;

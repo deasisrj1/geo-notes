@@ -23,9 +23,11 @@ export default async function Navbar() {
             <form>
               <button formAction={signOut}>Sign Out</button>
             </form>
-            <button className="ml-4 w-10 h-10 bg-neutral-800 rounded-full border-2 border-neutral-700 fill-none text-lg">
-              👤
-            </button>
+            <Link key={"user-settings"} href="/user/settings">
+              <button className="ml-4 w-10 h-10 bg-neutral-800 rounded-full border-2 border-neutral-700 fill-none text-lg">
+                👤
+              </button>
+            </Link>
           </div>
         ) : (
           <div className="flex flex-row justify-center items-center ">

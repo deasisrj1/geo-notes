@@ -19,7 +19,7 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
   const [zoom, setZoom] = useState(13);
   const [boundsChange, setBoundsChange] = useState(false);
   const [boundButtonClicked, setBoundButtonClicked] = useState(true);
-  const [mapNotes, setMapNotes] = useState(userMapNotes);
+  const [mapNotes, setMapNotes] = useState(userMapNotes || []);
 
   const markersRef = useRef({});
   const mapRef = useRef(null);
@@ -49,6 +49,7 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
   }, [highlightNoteId]);
 
   useEffect(() => {
+    console.log("HERE");
     async function getPublicNotes() {
       const bounds = map.target.getBounds();
       const maxLong = bounds.getEast();
@@ -66,9 +67,11 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
       setBoundButtonClicked(false);
     }
     if (map && !user && boundButtonClicked) {
+      setMapNotes([]);
       setCurrentTab(PUBLIC_NOTES);
       getPublicNotes();
     } else if (boundButtonClicked && user && currentTab === PUBLIC_NOTES) {
+      setMapNotes([]);
       getPublicNotes();
     } else if (user && currentTab !== PUBLIC_NOTES) {
       setBoundButtonClicked(true);
