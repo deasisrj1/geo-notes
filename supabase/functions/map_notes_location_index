@@ -1,0 +1,3 @@
+create index map_notes_location_index
+on public.map_notes 
+using GIST (location);
