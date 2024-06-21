@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { login } from "./actions";
 
-Link;
+// Link; ?
 
 export default function LoginPage() {
   return (
