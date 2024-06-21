@@ -2,6 +2,12 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+### How to start?
+-- try making your own todo list app using supabase and nextjs
+-- try to do supabase auth, database, and storage
+-- if you can successfully do that, you'll be able to know what's going on in this project
+
+
 ### Env variables
 create a .env.local file
 
@@ -10,10 +16,13 @@ create a .env.local file
 ```
 -- $ supabase start
 -- if needed: $ supabase migration args...
--- $ supabase db reset 
+-- [$ supabase db reset ](https://supabase.com/docs/guides/cli/local-development?queryGroups=access-method&access-method=kong)
+-- run supabase db reset so that you can run the migration to create tables for local db. all your registered users in local will be deleted if you run this
 -- make a copy of .env.local.example in root directory
 -- rename the copy .env.local
 -- fill in .env.local with the values in terminal when you ran:  $ supabase start
+-- run $ supabase db reset
+
 -- go to your supabase folder and find config.toml
 -- replace the value: enable_confirmations = false
 -- under [auth.email] 
