@@ -13,6 +13,16 @@ begin
   END;
 $$;
 
+
+
+/****
+wasn't added in the migration files
+need to add this if its not added under migration
+http://localhost:54323/project/default/database/triggers
+  - schema 
+    - auth
+****/
+
 DROP TRIGGER IF EXISTS on_auth_user_updated on auth.users;
 CREATE TRIGGER on_auth_user_updated
 AFTER UPDATE of raw_user_meta_data ON auth.users
