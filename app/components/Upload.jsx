@@ -9,7 +9,7 @@
 import { useFormState } from 'react-dom'
 import { useRef, useState } from "react"
 
-import { create } from '@/actions';
+import { create } from '../actions/img-upload/action';
 
 import { v4 as uuidv4 } from 'uuid';
 // import { createClient } from '@supabase/supabase-js'
