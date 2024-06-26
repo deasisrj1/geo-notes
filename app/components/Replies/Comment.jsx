@@ -1,4 +1,4 @@
-import { ChatBubbleLeftEllipsisIcon, TagIcon, UserCircleIcon } from '@heroicons/react/20/solid'
+import { UserCircleIcon } from '@heroicons/react/20/solid'
 
 export default function Comment({activityItem}) {
   return (

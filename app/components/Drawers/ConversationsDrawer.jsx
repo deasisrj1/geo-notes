@@ -2,7 +2,7 @@ import {
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 
-export default function PublicNotes({ children }) {
+export default function ConversationDrawer({ children }) {
   return (
     <>
       {/* Static sidebar for desktop */}

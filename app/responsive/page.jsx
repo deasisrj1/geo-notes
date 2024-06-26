@@ -8,6 +8,8 @@ import {
   loadPublicNotesInBounds,
 } from "@/app/actions/map-notes/actions";
 
+import ConversationDrawer from "../components/Drawers/ConversationsDrawer";
+import Conversations from "../components/Conversations/Conversations";
 import PublicNotes from "../components/PublicNotes";
 import SidebarMobile from "../components/SidebarMobile";
 import PublicNoteListComponent from "../components/PublicNoteList/PublicNoteListComponent";
@@ -26,13 +28,8 @@ import {
 
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-function Notes({ map, user 
-
-  , boundsChange, boundButtonClicked,
+function Notes({ map, user, boundsChange, boundButtonClicked,
   mapRef, markersRef, highlightNoteId, setBoundButtonClicked
-  
-
-
 }) {
   const [publicNotes, setPublicNotes] = useState([]);
 
@@ -167,19 +164,19 @@ export default function Example({ user = null, userMapNotes = [] }) {
           </Dialog>
         </Transition>
 
-        <PublicNotes>
-          <Notes
-            map={map}
-            user={user}
-            boundsChange={boundsChange}
-            boundButtonClicked={boundButtonClicked}
-            mapRef={mapRef}
-            markersRef={markersRef}
-            highlightNoteId={highlightNoteId}
-            setPublicNotes={setPublicNotes}
-            setBoundButtonClicked={setBoundButtonClicked}
-          />
-        </PublicNotes>
+        <ConversationDrawer>
+          <Conversations
+              map={map}
+              user={user}
+              boundsChange={boundsChange}
+              boundButtonClicked={boundButtonClicked}
+              mapRef={mapRef}
+              markersRef={markersRef}
+              highlightNoteId={highlightNoteId}
+              setPublicNotes={setPublicNotes}
+              setBoundButtonClicked={setBoundButtonClicked}
+            />
+        </ConversationDrawer>
 
         <div className="h-full lg:pl-72">
           {/* <Topnav setSidebarOpen={setSidebarOpen}/> */}

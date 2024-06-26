@@ -15,11 +15,14 @@ export default function PublicNoteListComponent({
       marker.openPopup();
     }
   };
+
+  let publicNotes2 = [...publicNotes, ...publicNotes, ...publicNotes]
+  let publicNotes3 = [...publicNotes2, ...publicNotes2, ...publicNotes2]
   return (
     <>
-      {`${publicNotes?.length} notes`}
+      {`${publicNotes3?.length} notes`}
       <div className="h-svh flex flex-grow flex-col xl:overflow-y-auto lg:overflow-y-auto">
-        {publicNotes?.map((note) => (
+        {publicNotes3?.map((note) => (
           <div
             onClick={() => handleNoteClick(note?.id)}
             id={`note-${note.id}`}
