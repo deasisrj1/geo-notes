@@ -1,5 +1,7 @@
 "use client";
 
+import { Drawer } from 'vaul';
+
 import SidebarMobile from "./SidebarMobile";
 
 import {
@@ -14,15 +16,31 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 export default function MobileDrawer({sidebarOpen, setSidebarOpen, children}) {
   return (
     <>
-        <Transition show={sidebarOpen}>
+      <Drawer.Root open={sidebarOpen} onOpenChange={setSidebarOpen} shouldScaleBackground>
+      <Drawer.Portal>
+        <Drawer.Overlay className="fixed inset-0 bg-black/40" />
+          <Drawer.Content className="bg-zinc-100 flex flex-col rounded-t-[10px] h-[96%] mt-24 fixed bottom-0 left-0 right-0">
+            <div className="p-4 bg-white rounded-t-[10px] flex-1">
+              <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300 mb-8" />
+              <div className="max-w-md mx-auto">
+                <Drawer.Title className="font-medium mb-4">
+                  Unstyled drawer for React.
+                </Drawer.Title>
+                <>
+                
+                <SidebarMobile>
+                    {children}
+                  </SidebarMobile>
+                
+                </>
+              </div>
+            </div>
+          </Drawer.Content>
+      </Drawer.Portal>
+    </Drawer.Root>
+        {/* <Transition show={sidebarOpen}>
           <Dialog className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
             <TransitionChild
-              enter="transition-opacity ease-linear duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="transition-opacity ease-linear duration-300"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
             >
               <div className="fixed inset-0 bg-gray-900/80" />
             </TransitionChild>
@@ -66,7 +84,7 @@ export default function MobileDrawer({sidebarOpen, setSidebarOpen, children}) {
               </TransitionChild>
             </div>
           </Dialog>
-        </Transition>
+        </Transition> */}
 
     </>
   );

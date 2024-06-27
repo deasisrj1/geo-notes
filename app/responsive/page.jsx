@@ -106,11 +106,10 @@ export default function Example({ user = null, userMapNotes = [] }) {
     zoom,
   };
 
-  return (
-    <>
-      <div className="h-full">
-        <MobileDrawer sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-          <Conversations
+  const getConversations = () => {
+    return (
+      <Conversations
+          sidebarOpen={sidebarOpen}
               map={map}
               user={user}
               boundsChange={boundsChange}
@@ -121,21 +120,20 @@ export default function Example({ user = null, userMapNotes = [] }) {
               setPublicNotes={setPublicNotes}
               setBoundButtonClicked={setBoundButtonClicked}
             />
+    )
+  }
+  console.log("sidebarOpen", sidebarOpen)
+
+  return (
+    <>
+      <div className="h-full">
+        <MobileDrawer sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+          {getConversations()}
         </MobileDrawer>
 
-        <ConversationDrawer>
-          <Conversations
-            map={map}
-            user={user}
-            boundsChange={boundsChange}
-            boundButtonClicked={boundButtonClicked}
-            mapRef={mapRef}
-            markersRef={markersRef}
-            highlightNoteId={highlightNoteId}
-            setPublicNotes={setPublicNotes}
-            setBoundButtonClicked={setBoundButtonClicked}
-          />
-        </ConversationDrawer>
+        {/* <ConversationDrawer>
+          {getConversations()}
+        </ConversationDrawer> */}
 
         <div className="h-full lg:pl-72">
           <Topnav setSidebarOpen={setSidebarOpen}/>

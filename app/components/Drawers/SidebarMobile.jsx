@@ -1,6 +1,5 @@
 
 export default function SidebarMobile({children}) {
-  console.log(children)
   return (
     <>
       {/* Sidebar component, swap this element with another sidebar if you like */}
