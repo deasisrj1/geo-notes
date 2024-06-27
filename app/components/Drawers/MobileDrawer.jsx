@@ -1,6 +1,6 @@
 "use client";
 
-import SidebarMobile from "../components/Drawers/SidebarMobile";
+import SidebarMobile from "./SidebarMobile";
 
 import {
   Dialog,

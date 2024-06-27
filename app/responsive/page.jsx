@@ -13,19 +13,11 @@ import Conversations from "../components/Conversations/Conversations";
 import SidebarMobile from "../components/Drawers/SidebarMobile";
 import PublicNoteListComponent from "../components/PublicNoteList/PublicNoteListComponent";
 import Footer from "../components/Footer";
-// import Topnav from "../components/TopNav";
+import Topnav from "../components/TopNav";
 const Map = dynamic(() => import("../components/Map/MapComponent"), {
   ssr: false,
 });
 
-import {
-  Dialog,
-  DialogPanel,
-  Transition,
-  TransitionChild,
-} from "@headlessui/react";
-
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import MobileDrawer from "../components/Drawers/MobileDrawer";
 
 function Notes({
@@ -146,7 +138,7 @@ export default function Example({ user = null, userMapNotes = [] }) {
         </ConversationDrawer>
 
         <div className="h-full lg:pl-72">
-          {/* <Topnav setSidebarOpen={setSidebarOpen}/> */}
+          <Topnav setSidebarOpen={setSidebarOpen}/>
           <main className="h-full">
             <div className="h-full">
               <Map {...mapProps} />
