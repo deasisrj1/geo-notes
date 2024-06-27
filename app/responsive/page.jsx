@@ -10,8 +10,7 @@ import {
 
 import ConversationDrawer from "../components/Drawers/ConversationsDrawer";
 import Conversations from "../components/Conversations/Conversations";
-import PublicNotes from "../components/PublicNotes";
-import SidebarMobile from "../components/SidebarMobile";
+import SidebarMobile from "../components/Drawers/SidebarMobile";
 import PublicNoteListComponent from "../components/PublicNoteList/PublicNoteListComponent";
 import Footer from "../components/Footer";
 // import Topnav from "../components/TopNav";
