@@ -8,14 +8,16 @@ import {
   } from "@/app/actions/map-notes/actions";
 
   
-export default function Notes({ map, user, boundsChange, boundButtonClicked,
+export default function Conversations({ sidebarOpen, map, user, boundsChange, boundButtonClicked,
     mapRef, markersRef, highlightNoteId, setBoundButtonClicked
   }) {
     const [publicNotes, setPublicNotes] = useState([]);
   
     useEffect(() => {
       async function getPublicNotes() {
-        if (map && !user && boundButtonClicked) {
+        console.log("here??", map , !user , boundButtonClicked)
+        if (map && !user) {
+          console.log("here 2??")
           const bounds = map.target.getBounds();
           const maxLong = bounds.getEast();
           const minLong = bounds.getWest();
@@ -28,13 +30,14 @@ export default function Notes({ map, user, boundsChange, boundButtonClicked,
             maxLat,
             maxLong,
           });  
+          console.log("data", data)
           setPublicNotes(data);
           setBoundButtonClicked(false);
         }
       }
       getPublicNotes();
       // }, [map, user, zoom]);
-    }, [map, user, boundsChange]);
+    }, [map, user, boundsChange, sidebarOpen]);
   
     return (
       <>

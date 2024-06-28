@@ -122,8 +122,6 @@ export default function Example({ user = null, userMapNotes = [] }) {
             />
     )
   }
-  console.log("sidebarOpen", sidebarOpen)
-
   return (
     <>
       <div className="h-full">
@@ -131,9 +129,9 @@ export default function Example({ user = null, userMapNotes = [] }) {
           {getConversations()}
         </MobileDrawer>
 
-        {/* <ConversationDrawer>
+        <ConversationDrawer>
           {getConversations()}
-        </ConversationDrawer> */}
+        </ConversationDrawer>
 
         <div className="h-full lg:pl-72">
           <Topnav setSidebarOpen={setSidebarOpen}/>

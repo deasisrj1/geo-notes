@@ -16,7 +16,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 export default function MobileDrawer({sidebarOpen, setSidebarOpen, children}) {
   return (
     <>
-      <Drawer.Root open={sidebarOpen} onOpenChange={setSidebarOpen} shouldScaleBackground>
+      {/* <Drawer.Root open={sidebarOpen} onOpenChange={setSidebarOpen} shouldScaleBackground>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
           <Drawer.Content className="bg-zinc-100 flex flex-col rounded-t-[10px] h-[96%] mt-24 fixed bottom-0 left-0 right-0">
@@ -37,8 +37,8 @@ export default function MobileDrawer({sidebarOpen, setSidebarOpen, children}) {
             </div>
           </Drawer.Content>
       </Drawer.Portal>
-    </Drawer.Root>
-        {/* <Transition show={sidebarOpen}>
+    </Drawer.Root> */}
+        <Transition show={sidebarOpen}>
           <Dialog className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
             <TransitionChild
             >
@@ -84,7 +84,7 @@ export default function MobileDrawer({sidebarOpen, setSidebarOpen, children}) {
               </TransitionChild>
             </div>
           </Dialog>
-        </Transition> */}
+        </Transition>
 
     </>
   );

@@ -4,12 +4,19 @@ export default function Conversation({
   markersRef,
   highlightNoteId,
 }) {
+  
   const handleNoteClick = (id) => {
     const map = mapRef.current;
     if (!map) {
       return;
     }
+    //setHighlightNoteId
+    console.log("note id", id)
+    
     const marker = markersRef.current[`${id}`];
+    console.log("marker", marker)
+    console.log("markersRef", markersRef)
+
     map.target.flyTo(marker._latlng), 13;
     if (marker) {
       marker.openPopup();
@@ -18,6 +25,7 @@ export default function Conversation({
 
   let publicNotes2 = [...publicNotes, ...publicNotes, ...publicNotes];
   let publicNotes3 = [...publicNotes2, ...publicNotes2, ...publicNotes2];
+  console.log("publicNotes", publicNotes)
   return (
     <>
       <nav className="flex flex-1 flex-col">
