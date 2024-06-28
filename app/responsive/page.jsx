@@ -26,13 +26,16 @@ import {
 
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-function Notes({ map, user 
+function Notes({
+  map,
+  user,
 
-  , boundsChange, boundButtonClicked,
-  mapRef, markersRef, highlightNoteId, setBoundButtonClicked
-  
-
-
+  boundsChange,
+  boundButtonClicked,
+  mapRef,
+  markersRef,
+  highlightNoteId,
+  setBoundButtonClicked,
 }) {
   const [publicNotes, setPublicNotes] = useState([]);
 
@@ -113,7 +116,7 @@ export default function Example({ user = null, userMapNotes = [] }) {
   return (
     <>
       <div className="h-full">
-        <Transition show={sidebarOpen}>
+        {/* <Transition show={sidebarOpen}>
           <Dialog className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
             <TransitionChild
               enter="transition-opacity ease-linear duration-300"
@@ -165,7 +168,7 @@ export default function Example({ user = null, userMapNotes = [] }) {
               </TransitionChild>
             </div>
           </Dialog>
-        </Transition>
+        </Transition> */}
 
         <PublicNotes>
           <Notes

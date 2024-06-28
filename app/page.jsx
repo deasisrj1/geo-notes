@@ -30,7 +30,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="flex flex-col w-full flex-grow overflow-y-auto px-14">
+    <div className="flex flex-col w-full flex-grow overflow-y-auto">
       <MapAndListContainerComponent user={user} userMapNotes={mapNotes} />
     </div>
   );

@@ -1,15 +1,4 @@
 import {
-  Dialog,
-  DialogPanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Transition,
-  TransitionChild,
-} from "@headlessui/react";
-
-import {
   Bars3Icon,
   BellIcon,
   CalendarIcon,
@@ -20,55 +9,84 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
-} from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
+  ArrowLeftIcon,
   MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid";
+} from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  { name: "Search", href: "", icon: MagnifyingGlassIcon, current: false },
+  { name: "Public Notes", href: "", icon: HomeIcon, current: true },
+  { name: "My Notes", href: "", icon: UsersIcon, current: false },
+  { name: "New Note", href: "", icon: FolderIcon, current: false },
+  //   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
+  //   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
+  //   { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
 ];
 
-const teams = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
-];
-export default function PublicNotes({ children }) {
+// const teams = [
+//   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
+//   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
+//   { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
+// ];
+
+export default function SidebarComponent({ children, setCurrentTab }) {
+  const [current, setCurrent] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   return (
     <>
       {/* Static sidebar for desktop */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+      {/* <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col"> */}
+      <div
+        className={` hidden md:h-full lg:h-full lg:flex ${
+          sidebarOpen ? "lg:w-72" : "lg:w-16"
+        } lg:flex-col duration-300  relative`}
+      >
         {/* Sidebar component, swap this element with another sidebar if you like */}
+
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
-          <div className="flex h-16 shrink-0 items-center">
-            <img
+          {/* <div className="flex h-16 shrink-0 items-center"> */}
+          {/* <img
               className="h-8 w-auto"
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt="Your Company"
-            />
-          </div>
-          {children}
-          <nav className="flex flex-1 flex-col">
+            /> */}
+          {/* </div> */}
+          {/* {children} */}
+          {console.log(children[0].props.name)}
+
+          {/* <button
+            className={`bg-white text-neutral-700 text-xl p-1 rounded-full absolute -right-4 top-9 w-8 h-8 z-999 border ${
+              !sidebarOpen && "rotate-180"
+            }`}
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            <ArrowLeftIcon />
+          </button> */}
+
+          <nav className="flex flex-1 flex-col py-4">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" className="-mx-2 space-y-1">
                   {navigation.map((item) => (
                     <li key={item.name}>
-                      <a
-                        href={item.href}
+                      <div
+                        onClick={() => {
+                          setCurrent(item.name);
+                          setCurrentTab(item.name);
+                          if (item.name === current) {
+                            setSidebarOpen(!sidebarOpen);
+                          } else {
+                            setSidebarOpen(false);
+                          }
+                        }}
+                        // href={item.href}
                         className={classNames(
-                          item.current
+                          item.name == current
                             ? "bg-gray-50 text-indigo-600"
                             : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
                           "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
@@ -76,21 +94,28 @@ export default function PublicNotes({ children }) {
                       >
                         <item.icon
                           className={classNames(
-                            item.current
+                            item.name == current
                               ? "text-indigo-600"
                               : "text-gray-400 group-hover:text-indigo-600",
                             "h-6 w-6 shrink-0"
                           )}
                           aria-hidden="true"
                         />
-                        {item.name}
-                      </a>
+
+                        <p
+                          className={`text-nowrap ${
+                            !sidebarOpen && " hidden "
+                          }`}
+                        >
+                          {item.name}
+                        </p>
+                      </div>
                     </li>
                   ))}
                 </ul>
               </li>
               <li>
-                <div className="text-xs font-semibold leading-6 text-gray-400">
+                {/* <div className="text-xs font-semibold leading-6 text-gray-400">
                   Your teams
                 </div>
                 <ul role="list" className="-mx-2 mt-2 space-y-1">
@@ -119,7 +144,7 @@ export default function PublicNotes({ children }) {
                       </a>
                     </li>
                   ))}
-                </ul>
+                </ul> */}
               </li>
               <li className="mt-auto">
                 <a
@@ -130,13 +155,21 @@ export default function PublicNotes({ children }) {
                     className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
                     aria-hidden="true"
                   />
-                  Settings
+                  {sidebarOpen && "Settings"}
                 </a>
               </li>
             </ul>
           </nav>
         </div>
       </div>
+
+      {children.map(
+        (child) =>
+          !sidebarOpen &&
+          child.props.name === current && (
+            <div className="flex flex-col w-96">{child}</div>
+          )
+      )}
     </>
   );
 }
