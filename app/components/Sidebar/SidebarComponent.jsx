@@ -42,7 +42,7 @@ export default function SidebarComponent({ children, setCurrentTab }) {
       {/* Static sidebar for desktop */}
       {/* <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col"> */}
       <div
-        className={` hidden md:h-full lg:h-full lg:flex ${
+        className={`lg:fixed  lg:z-50 lg:inset-y-0 hidden md:h-full lg:h-full lg:flex ${
           sidebarOpen ? "lg:w-72" : "lg:w-16"
         } lg:flex-col duration-300  relative`}
       >
@@ -56,17 +56,6 @@ export default function SidebarComponent({ children, setCurrentTab }) {
               alt="Your Company"
             /> */}
           {/* </div> */}
-          {/* {children} */}
-          {console.log(children[0].props.name)}
-
-          {/* <button
-            className={`bg-white text-neutral-700 text-xl p-1 rounded-full absolute -right-4 top-9 w-8 h-8 z-999 border ${
-              !sidebarOpen && "rotate-180"
-            }`}
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-          >
-            <ArrowLeftIcon />
-          </button> */}
 
           <nav className="flex flex-1 flex-col py-4">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -148,7 +137,7 @@ export default function SidebarComponent({ children, setCurrentTab }) {
               </li>
               <li className="mt-auto">
                 <a
-                  href="#"
+                  href="user/settings"
                   className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
                 >
                   <Cog6ToothIcon
@@ -167,7 +156,9 @@ export default function SidebarComponent({ children, setCurrentTab }) {
         (child) =>
           !sidebarOpen &&
           child.props.name === current && (
-            <div className="flex flex-col w-96">{child}</div>
+            <div className="bg-white ml-16 lg:fixed  lg:z-50 lg:inset-y-0 duration-300 flex flex-col w-96">
+              {child}
+            </div>
           )
       )}
     </>

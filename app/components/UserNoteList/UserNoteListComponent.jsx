@@ -41,6 +41,7 @@ export default function UserNoteListComponent({
 
   return (
     <>
+      <h1 className="text-xl p-2 border-b border-r">My Notes</h1>
       {showEdit && (
         <EditNoteComponent
           setShowEdit={setShowEdit}

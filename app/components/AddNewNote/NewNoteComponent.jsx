@@ -10,6 +10,7 @@ export default function NewNoteComponent({
 }) {
   return (
     <div className="">
+      <h1 className="text-xl p-2 border-b border-r">New Note</h1>
       {user ? (
         <form
           action={addMapNote}
@@ -17,9 +18,10 @@ export default function NewNoteComponent({
             setBody("");
             setTitle("");
           }}
-          className="bg-neutral-950	p-2"
+          className="	p-2 gap-2 flex flex-col"
+          // className="bg-neutral-950	p-2"
         >
-          {markerPos}
+          {/* {markerPos} */}
           <input
             type="hidden"
             name="longitude"
@@ -33,9 +35,9 @@ export default function NewNoteComponent({
             value={markerPos[0]}
           />
           <input type="hidden" name="userId" id="userId" value={user?.id} />
-          <label htmlFor="title" className=" py-2 block text-lg font-medium">
+          {/* <label htmlFor="title" className=" py-2 block text-lg font-medium">
             Title:
-          </label>
+          </label> */}
           <input
             id="title"
             name="title"
@@ -46,9 +48,9 @@ export default function NewNoteComponent({
             required
             className="block p-2.5 w-full text-md  bg-gray-50 rounded-lg border border-gray-300  focus:ring-blue-500 focus:border-blue-500 dark:bg-neutral-800 dark:border-gray-600 dark:placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
-          <label htmlFor="body" className="block py-2 text-lg font-medium	 ">
+          {/* <label htmlFor="body" className="block py-2 text-lg font-medium	 ">
             Your Note:
-          </label>
+          </label> */}
           <textarea
             id="body"
             name="body"
@@ -59,16 +61,16 @@ export default function NewNoteComponent({
             placeholder="Write your thoughts here..."
           />
           <div className=" rounded-md flex flex-col items-start justify-between">
-            <label
+            {/* <label
               htmlFor="visibility"
               className="block py-2 text-lg font-medium	 "
             >
               Visibility:
-            </label>
+            </label> */}
             <select
               id="visibility"
               name="visibility"
-              className="bg-neutral-800 text-md rounded border-r-8  border-transparent  py-2 px-2 mt-1 outline outline-neutral-700 dark:bg-neutral-800 focus:ring-blue-500 w-full cursor-pointer"
+              className="bg-neutral-800 text-md rounded border-r-8  border-transparent  py-2 px-2 mt-1 outline outline-neutral-700 dark:bg-neutral-800 focus:ring-blue-500 w-full cursor-pointer text-white"
             >
               <option defaultValue value="PUBLIC">
                 Public

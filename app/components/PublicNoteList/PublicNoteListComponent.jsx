@@ -17,7 +17,8 @@ export default function PublicNoteListComponent({
   };
   return (
     <>
-      {`${publicNotes?.length} notes`}
+      <h1 className="text-xl p-2 border-b border-r">Public Notes</h1>
+      {/* {`${publicNotes?.length} notes`} */}
       <div className="h-svh flex flex-grow flex-col xl:overflow-y-auto lg:overflow-y-auto">
         {publicNotes?.map((note) => (
           <div
