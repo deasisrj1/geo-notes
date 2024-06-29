@@ -24,7 +24,7 @@ export default function UserNoteListComponent({
 
     console.log("marker", marker)
     console.log("id", id)
-    map.target.flyTo(marker._latlng), 13;
+    map.target.flyTo(marker._latlng), 13; //huh?
     if (marker) {
       marker.openPopup();
     }

@@ -1,6 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { NEW_NOTE, MY_NOTES } from "@/app/enums/noteEnums";
 import {
   addMapNote,
@@ -14,61 +14,12 @@ import SidebarMobile from "../components/Drawers/SidebarMobile";
 import PublicNoteListComponent from "../components/PublicNoteList/PublicNoteListComponent";
 import Footer from "../components/Footer";
 import Topnav from "../components/TopNav";
-const Map = dynamic(() => import("../components/Map/MapComponent"), {
-  ssr: false,
-});
+// const Map = dynamic(() => import("../components/Map/MapComponent"), {
+//   ssr: false,
+// });
 
 import MobileDrawer from "../components/Drawers/MobileDrawer";
 
-function Notes({
-  map,
-  user,
-  boundsChange,
-  boundButtonClicked,
-  mapRef,
-  markersRef,
-  highlightNoteId,
-  setBoundButtonClicked,
-}) {
-  const [publicNotes, setPublicNotes] = useState([]);
-
-  useEffect(() => {
-    async function getPublicNotes() {
-      if (map && !user && boundButtonClicked) {
-        const bounds = map.target.getBounds();
-        const maxLong = bounds.getEast();
-        const minLong = bounds.getWest();
-        const maxLat = bounds.getNorth();
-        const minLat = bounds.getSouth();
-
-        const data = await loadPublicNotesInBounds({
-          minLat,
-          minLong,
-          maxLat,
-          maxLong,
-        });
-
-        console.log("wtf", data);
-
-        setPublicNotes(data);
-        setBoundButtonClicked(false);
-      }
-    }
-    getPublicNotes();
-    // }, [map, user, zoom]);
-  }, [map, user, boundsChange]);
-
-  return (
-    <>
-      <PublicNoteListComponent
-        publicNotes={publicNotes}
-        mapRef={mapRef}
-        markersRef={markersRef}
-        highlightNoteId={highlightNoteId}
-      />
-    </>
-  );
-}
 export default function Example({ user = null, userMapNotes = [] }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -85,26 +36,83 @@ export default function Example({ user = null, userMapNotes = [] }) {
   const [zoom, setZoom] = useState(13);
   const [boundsChange, setBoundsChange] = useState(false);
   const [boundButtonClicked, setBoundButtonClicked] = useState(true);
+  const [mapNotes, setMapNotes] = useState(userMapNotes || []);
 
   const handleMarkerDragged = (latlong) => {
     setMarkerPos([latlong.lat, latlong.lng]);
   };
 
+  // const Map = dynamic(() => import("../components/Map/MapComponent"), {
+
+  const Map = useMemo(
+    () => dynamic(() => import("../components/Map/MapComponent"), { ssr: false }),
+    []
+  );
+
+
+  useEffect(() => {
+    if (map) {
+      map.target.on("zoomend", (m) => {
+        setBoundsChange(true);
+      });
+      map.target.on("moveend", (m) => {
+        setBoundsChange(true);
+      });
+    }
+  }, [map]);
+  
+
+
+  useEffect(() => {
+    console.log("HERE");
+    async function getPublicNotes() {
+      const bounds = map.target.getBounds();
+      const maxLong = bounds.getEast();
+      const minLong = bounds.getWest();
+      const maxLat = bounds.getNorth();
+      const minLat = bounds.getSouth();
+
+      const data = await loadPublicNotesInBounds({
+        minLat,
+        minLong,
+        maxLat,
+        maxLong,
+      });
+      setMapNotes(data);
+      setBoundButtonClicked(false);
+    }
+    if (map && !user && boundButtonClicked) {
+      setMapNotes([]);
+      // setCurrentTab(PUBLIC_NOTES);
+      getPublicNotes();
+    } else if (boundButtonClicked && user && currentTab === PUBLIC_NOTES) {
+      setMapNotes([]);
+      getPublicNotes();
+    } else if (user && currentTab !== PUBLIC_NOTES) {
+      setBoundButtonClicked(true);
+      setMapNotes(userMapNotes);
+    }
+    // }, [map, user, zoom]);
+  }, [map, user, boundsChange, currentTab]);
+
+
   const mapProps = {
     markerPos: markerPos,
     handleMarkerDragged: handleMarkerDragged,
-    notes: userMapNotes,
     title: title,
     body: body,
     markersRef,
     mapRef,
     setHighlightNoteId: setHighlightNoteId,
     setCurrentTab,
+    currentTab,
     user,
     setMap,
-    publicNotes,
     zoom,
+    mapNotes,
   };
+
+  console.log("page smarkersRef", markersRef)
 
   const getConversations = () => {
     return (
@@ -119,6 +127,7 @@ export default function Example({ user = null, userMapNotes = [] }) {
               highlightNoteId={highlightNoteId}
               setPublicNotes={setPublicNotes}
               setBoundButtonClicked={setBoundButtonClicked}
+              publicNotes={publicNotes}
             />
     )
   }
