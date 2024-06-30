@@ -64,7 +64,6 @@ export default function Example({ user = null, userMapNotes = [] }) {
 
 
   useEffect(() => {
-    console.log("HERE");
     async function getPublicNotes() {
       const bounds = map.target.getBounds();
       const maxLong = bounds.getEast();
@@ -80,8 +79,13 @@ export default function Example({ user = null, userMapNotes = [] }) {
       });
       setMapNotes(data);
       setBoundButtonClicked(false);
+      setPublicNotes(data)
+      console.log("getPublicNotes", data);
+
     }
-    if (map && !user && boundButtonClicked) {
+    
+    if (map) {
+    // if (map && !user && boundButtonClicked) {
       setMapNotes([]);
       // setCurrentTab(PUBLIC_NOTES);
       getPublicNotes();
@@ -93,7 +97,7 @@ export default function Example({ user = null, userMapNotes = [] }) {
       setMapNotes(userMapNotes);
     }
     // }, [map, user, zoom]);
-  }, [map, user, boundsChange, currentTab]);
+  }, [map, user, boundsChange, currentTab, sidebarOpen]);
 
 
   const mapProps = {
@@ -135,15 +139,26 @@ export default function Example({ user = null, userMapNotes = [] }) {
     <>
       <div className="h-full">
         <MobileDrawer sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-          {getConversations()}
-        </MobileDrawer>
+        <Conversations
+          sidebarOpen={sidebarOpen}
+              map={map}
+              user={user}
+              boundsChange={boundsChange}
+              boundButtonClicked={boundButtonClicked}
+              mapRef={mapRef}
+              markersRef={markersRef}
+              highlightNoteId={highlightNoteId}
+              setPublicNotes={setPublicNotes}
+              setBoundButtonClicked={setBoundButtonClicked}
+              publicNotes={publicNotes}
+            />        </MobileDrawer>
 
         <ConversationDrawer>
           {getConversations()}
         </ConversationDrawer>
 
         <div className="h-full lg:pl-72">
-          <Topnav setSidebarOpen={setSidebarOpen}/>
+          {/* <Topnav setSidebarOpen={setSidebarOpen}/> */}
           <main className="h-full">
             <div className="h-full">
               <Map {...mapProps} />
