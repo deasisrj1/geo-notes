@@ -12,7 +12,7 @@ import PublicNotes from "../components/PublicNotes";
 import SidebarMobile from "../components/SidebarMobile";
 import PublicNoteListComponent from "../components/PublicNoteList/PublicNoteListComponent";
 import Footer from "../components/Footer";
-// import Topnav from "../components/TopNav";
+import Topnav from "../components/TopNav";
 const Map = dynamic(() => import("../components/Map/MapComponent"), {
   ssr: false,
 });
@@ -185,7 +185,7 @@ export default function Example({ user = null, userMapNotes = [] }) {
         </PublicNotes>
 
         <div className="h-full lg:pl-72">
-          {/* <Topnav setSidebarOpen={setSidebarOpen}/> */}
+          <Topnav setSidebarOpen={setSidebarOpen} />
           <main className="h-full">
             <div className="h-full">
               <Map {...mapProps} />
@@ -194,7 +194,7 @@ export default function Example({ user = null, userMapNotes = [] }) {
         </div>
       </div>
 
-      <Footer setSidebarOpen={setSidebarOpen} />
+      {/* <Footer setSidebarOpen={setSidebarOpen} /> */}
     </>
   );
 }

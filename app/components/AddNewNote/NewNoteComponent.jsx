@@ -10,7 +10,9 @@ export default function NewNoteComponent({
 }) {
   return (
     <div className="">
-      <h1 className="text-xl p-2 border-b border-r">New Note</h1>
+      <h1 className="h-14 text-xl font-bold p-4 border-b-2 border-t-2 border-r">
+        New Note
+      </h1>
       {user ? (
         <form
           action={addMapNote}

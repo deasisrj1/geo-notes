@@ -10,7 +10,7 @@ export default async function Navbar() {
   } = await supabase.auth.getUser();
 
   return (
-    <div className="flex flex-row h-14 justify-between w-full bg-neutral-950 py-4 px-14 items-center border-b-2 border-neutral-900">
+    <div className="flex flex-row h-14 justify-between w-full bg-neutral-950 py-4 px-14 items-center">
       <div>
         <Link className="text-neutral-500" key={"home"} href="/">
           <h1>Geo Notes</h1>

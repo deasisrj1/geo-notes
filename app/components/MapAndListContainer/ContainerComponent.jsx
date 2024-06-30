@@ -8,6 +8,7 @@ import UserNoteListComponent from "../UserNoteList/UserNoteListComponent";
 import NewNoteComponent from "../AddNewNote/NewNoteComponent";
 import PublicNoteListComponent from "../PublicNoteList/PublicNoteListComponent";
 import SidebarComponent from "../Sidebar/SidebarComponent";
+import SearchBarComponent from "../SearchBar/SearchBarComponent";
 
 export default function MapAndListContainerComponent({ user, userMapNotes }) {
   const [markerPos, setMarkerPos] = useState([53.5461, -113.4938]);
@@ -121,26 +122,6 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
 
   return (
     <div className="rounded max-h-screen lg:overflow-y-auto overflow-y-auto flex-1 w-full flex flex-row lg:flex-row sm:flex-col md:flex-col xs:flex-col sm:overflow-y-scroll">
-      <SidebarComponent setCurrentTab={setCurrentTab}>
-        {/* <SEARCH COMPONENT /> */}
-        <NewNoteComponent {...newNoteProps} />
-        <PublicNoteListComponent
-          publicNotes={mapNotes}
-          mapRef={mapRef}
-          markersRef={markersRef}
-          highlightNoteId={highlightNoteId}
-          name="Public Notes"
-        />
-        <UserNoteListComponent
-          name="My Notes"
-          markersRef={markersRef}
-          mapRef={mapRef}
-          userMapNotes={userMapNotes}
-          user={user}
-          highlightNoteId={highlightNoteId}
-          setHighlightNoteId={setHighlightNoteId}
-        />
-      </SidebarComponent>
       <div className="relative flex flex-col w-full h-full  border border-neutral-900 rounded">
         <Map {...mapProps} />
         {boundsChange && currentTab === PUBLIC_NOTES && (
@@ -162,6 +143,30 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
           </div>
         )}
       </div>
+      <SidebarComponent
+        setCurrentTab={setCurrentTab}
+        user={user}
+        currentTab={currentTab}
+      >
+        <SearchBarComponent name="Search" />
+        <NewNoteComponent {...newNoteProps} />
+        <PublicNoteListComponent
+          publicNotes={mapNotes}
+          mapRef={mapRef}
+          markersRef={markersRef}
+          highlightNoteId={highlightNoteId}
+          name="Public Notes"
+        />
+        <UserNoteListComponent
+          name="My Notes"
+          markersRef={markersRef}
+          mapRef={mapRef}
+          userMapNotes={userMapNotes}
+          user={user}
+          highlightNoteId={highlightNoteId}
+          setHighlightNoteId={setHighlightNoteId}
+        />
+      </SidebarComponent>
     </div>
   );
 }
