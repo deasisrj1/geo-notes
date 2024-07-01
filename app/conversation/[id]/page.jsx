@@ -59,11 +59,11 @@ shape we have
                 {comment.name}
               </p>
               <p className="flex-none text-xs text-gray-600">
-                <time dateTime={comment.dateTime}>{comment.date}</time>
+                <time dateTime={comment?.dateTime}>{comment?.date}</time>
               </p>
             </div>
             <p className="mt-1 line-clamp-2 text-sm leading-6 text-gray-600">
-              {comment.content}
+              {comment.text}
             </p>
           </div>
         </li>

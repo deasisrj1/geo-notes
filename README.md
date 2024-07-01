@@ -10,6 +10,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ### Env variables
 create a .env.local file
+rename .env.sentry-build-plugin.example  without the .example and fill out the key
 
 ### Supabase setup
 [Run supabase locally](https://supabase.com/docs/guides/cli/local-development?queryGroups=access-method&access-method=kong)
