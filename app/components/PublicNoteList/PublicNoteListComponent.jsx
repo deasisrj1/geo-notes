@@ -16,13 +16,11 @@ export default function PublicNoteListComponent({
     }
   };
 
-  let publicNotes2 = [...publicNotes, ...publicNotes, ...publicNotes]
-  let publicNotes3 = [...publicNotes2, ...publicNotes2, ...publicNotes2]
   return (
     <>
-      {`${publicNotes3?.length} notes`}
+      {`${publicNotes?.length} notes`}
       <div className="h-svh flex flex-grow flex-col xl:overflow-y-auto lg:overflow-y-auto">
-        {publicNotes3?.map((note) => (
+        {publicNotes?.map((note) => (
           <div
             onClick={() => handleNoteClick(note?.id)}
             id={`note-${note.id}`}

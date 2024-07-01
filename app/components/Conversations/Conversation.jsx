@@ -1,6 +1,17 @@
 import Link from "next/link";
 
 export default function Conversation({ publicNotes, mapRef, markersRef }) {
+  /*
+  
+  {
+    "id": 1,
+    "title": "a",
+    "body": "b",
+    "lat": 53.5461,
+    "long": -113.4938,
+    "firstname": null
+}
+  */
   return (
     <>
       <nav className="flex flex-1 flex-col">
@@ -22,7 +33,12 @@ export default function Conversation({ publicNotes, mapRef, markersRef }) {
                       </div>
                       <div className="ml-4 mt-4 flex-shrink-0">
                         <Link
-                          href={`/conversation/${note?.id}`}
+                          href={{
+                            pathname: `/conversation/${note?.id}`,
+                            query: {
+                              ...note
+                            }
+                          }}
                           className="relative inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                           Open

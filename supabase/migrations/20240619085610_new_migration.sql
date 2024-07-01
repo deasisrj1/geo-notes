@@ -7,7 +7,7 @@ drop policy "Users can view their own notes" on "public"."map_notes";
 set check_function_bodies = off;
 
 CREATE OR REPLACE FUNCTION public.get_all_user_notes(user_id uuid)
- RETURNS TABLE(lat double precision, long double precision, title text, body text, id integer, visibility text)
+ RETURNS TABLE(lat double precision, long double precision, title text, body text, id uuid, visibility text)
  LANGUAGE sql
 AS $function$select 
   st_y(location :: geometry) as lat,
