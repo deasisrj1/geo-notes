@@ -10,9 +10,18 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ### Env variables
 create a .env.local file
+rename .env.sentry-build-plugin.example  without the .example and fill out the key
 
 ### Supabase setup
 [Run supabase locally](https://supabase.com/docs/guides/cli/local-development?queryGroups=access-method&access-method=kong)
+
+this trigger is not included in migrations, you need to do it yourself manually
+[Auth trigger](https://supabase.com/docs/guides/auth/managing-user-data?queryGroups=language&language=js)
+make sure you go to your database table and go to schema auth that the trigger is there
+also go check the sql function you created is also there
+If you register a new account and your public.users table gets populated that means its working, if not
+something didnt work
+
 ```
 -- $ supabase start
 -- if needed: $ supabase migration args...
@@ -27,7 +36,6 @@ create a .env.local file
 -- replace the value: enable_confirmations = false
 -- under [auth.email] 
 -- if you want to disable email verification, ie: signup without confirming in local dev, change this in production
--- go to http://localhost:54324/monitor to confirm email verification after sign up
 -- or instead you can add this in signup logic:
  const data = {
     email: formData.get("email"),
@@ -44,10 +52,15 @@ create a .env.local file
   const { error } = await supabase.auth.signUp(data);
 
 
+[RLS security check](https://supabase.com/docs/guides/database/postgres/row-level-security)
+
+
 If you are running into some issues, you might have to stop and start supabase again in docker
 ```
 
-
+## Sentry
+-- [setup](https://docs.sentry.io/platforms/javascript/guides/nextjs/)
+-- todo: configure CI 
 
 
 First, run the development server:
@@ -67,6 +80,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+
+## DB migrations
+To save changes in local db ui into schema run the following
+-- supabase db diff --use-migra -f name_your_schema_like_test_to_see_update_V1        
+-- this might not include all db changes like triggers, functions, etc so double check
+
 
 
 ## Tracking, logs, error monitoring, feedback and observability

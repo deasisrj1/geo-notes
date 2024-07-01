@@ -20,7 +20,11 @@ export default function UserNoteListComponent({
     }
 
     const marker = markersRef.current[`${id}`];
-    map.target.flyTo(marker._latlng), 13;
+    console.log("markersRef", markersRef)
+
+    console.log("marker", marker)
+    console.log("id", id)
+    map.target.flyTo(marker._latlng), 13; //huh?
     if (marker) {
       marker.openPopup();
     }

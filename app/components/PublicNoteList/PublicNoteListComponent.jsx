@@ -15,6 +15,7 @@ export default function PublicNoteListComponent({
       marker.openPopup();
     }
   };
+
   return (
     <>
       {`${publicNotes?.length} notes`}
