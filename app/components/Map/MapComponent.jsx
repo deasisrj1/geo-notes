@@ -3,10 +3,16 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css"; // Important!
 import "leaflet-defaulticon-compatibility";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  ZoomControl,
+} from "react-leaflet";
 import { useEffect, useState } from "react";
 
-import { MY_NOTES, NEW_NOTE } from "@/app/enums/noteEnums";
+import { MY_NOTES, NEW_NOTE, PUBLIC_NOTES } from "@/app/enums/noteEnums";
 import L, { popup } from "leaflet";
 
 export default function MapComponent({
@@ -53,6 +59,7 @@ export default function MapComponent({
 
   return (
     <MapContainer
+      zoomControl={false}
       className="rounded z-0 w-full h-full"
       center={markerPos}
       zoom={zoom}
@@ -63,6 +70,7 @@ export default function MapComponent({
         mapRef.current = map;
       }}
     >
+      <ZoomControl position="topright" />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -72,7 +80,7 @@ export default function MapComponent({
         <Marker
           eventHandlers={{
             click: (m) => {
-              if (currentTab === NEW_NOTE) setCurrentTab(MY_NOTES);
+              if (currentTab !== PUBLIC_NOTES) setCurrentTab(MY_NOTES);
               setHighlightNoteId(note?.id);
             },
             popupclose: () => {

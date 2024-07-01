@@ -7,6 +7,8 @@ import HeaderComponent from "../NoteListHeader/HeaderComponent";
 import UserNoteListComponent from "../UserNoteList/UserNoteListComponent";
 import NewNoteComponent from "../AddNewNote/NewNoteComponent";
 import PublicNoteListComponent from "../PublicNoteList/PublicNoteListComponent";
+import SidebarComponent from "../Sidebar/SidebarComponent";
+import SearchBarComponent from "../SearchBar/SearchBarComponent";
 
 export default function MapAndListContainerComponent({ user, userMapNotes }) {
   const [markerPos, setMarkerPos] = useState([53.5461, -113.4938]);
@@ -19,7 +21,8 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
   const [zoom, setZoom] = useState(13);
   const [boundsChange, setBoundsChange] = useState(false);
   const [boundButtonClicked, setBoundButtonClicked] = useState(true);
-  const [mapNotes, setMapNotes] = useState(userMapNotes || []);
+  // const [mapNotes, setMapNotes] = useState(userMapNotes || []);
+  const [mapNotes, setMapNotes] = useState([]);
 
   const markersRef = useRef({});
   const mapRef = useRef(null);
@@ -67,11 +70,11 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
       setBoundButtonClicked(false);
     }
     if (map && !user && boundButtonClicked) {
-      setMapNotes([]);
+      // setMapNotes([]);
       setCurrentTab(PUBLIC_NOTES);
       getPublicNotes();
     } else if (boundButtonClicked && user && currentTab === PUBLIC_NOTES) {
-      setMapNotes([]);
+      // setMapNotes([]);
       getPublicNotes();
     } else if (user && currentTab !== PUBLIC_NOTES) {
       setBoundButtonClicked(true);
@@ -98,6 +101,7 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
     setBody: setBody,
     user,
     markerPos,
+    name: "New Note",
   };
 
   const mapProps = {
@@ -117,11 +121,11 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
   };
 
   return (
-    <div className="rounded max-h-screen lg:overflow-y-auto flex-1 w-full flex flex-row py-2 lg:flex-row sm:flex-col md:flex-col xs:flex-col sm:overflow-y-scroll">
+    <div className="rounded max-h-screen lg:overflow-y-auto overflow-y-auto flex-1 w-full flex flex-row lg:flex-row sm:flex-col md:flex-col xs:flex-col sm:overflow-y-scroll">
       <div className="relative flex flex-col w-full h-full  border border-neutral-900 rounded">
         <Map {...mapProps} />
         {boundsChange && currentTab === PUBLIC_NOTES && (
-          <div className="absolute text-xs mt-4 left-0 right-0 grid place-items-center text-black z-9999">
+          <div className="absolute text-xs mt-4 left-0 right-0 grid place-items-center text-black z-999">
             <button
               onClick={() => {
                 const marker = markersRef.current[`${highlightNoteId}`];
@@ -139,53 +143,30 @@ export default function MapAndListContainerComponent({ user, userMapNotes }) {
           </div>
         )}
       </div>
-      <div className=" flex flex-col overflow-y-auto  lg:basis-1/3 md:basis-2/3   bg-neutral-950 ml-2 rounded border border-neutral-900">
-        <div className="flex block border-b-2 border-neutral-900 w-full">
-          {/* <input type="hidden" name="userId" id="userId" value={user?.id} /> */}
-          <label
-            htmlFor="search"
-            className=" py-2 block text-lg font-medium"
-          ></label>
-          <input
-            id="search"
-            name="search"
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search"
-            required
-            className="block m-4 p-2.5 w-full text-md  bg-gray-50 rounded-full border border-gray-300  focus:ring-blue-500 focus:border-blue-500 dark:bg-neutral-800 dark:border-gray-600 dark:placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>
-        <HeaderComponent
-          currentTab={currentTab}
-          setCurrentTab={setCurrentTab}
-          user={user}
+      <SidebarComponent
+        setCurrentTab={setCurrentTab}
+        user={user}
+        currentTab={currentTab}
+      >
+        <SearchBarComponent name="Search" />
+        <NewNoteComponent {...newNoteProps} />
+        <PublicNoteListComponent
+          publicNotes={mapNotes}
+          mapRef={mapRef}
+          markersRef={markersRef}
+          highlightNoteId={highlightNoteId}
+          name="Public Notes"
         />
-        {user && currentTab === NEW_NOTE && (
-          <NewNoteComponent {...newNoteProps} />
-        )}
-
-        {user && currentTab === MY_NOTES && (
-          <UserNoteListComponent
-            markersRef={markersRef}
-            mapRef={mapRef}
-            userMapNotes={userMapNotes}
-            user={user}
-            highlightNoteId={highlightNoteId}
-            setHighlightNoteId={setHighlightNoteId}
-          />
-        )}
-
-        {currentTab === PUBLIC_NOTES && (
-          <PublicNoteListComponent
-            publicNotes={mapNotes}
-            mapRef={mapRef}
-            markersRef={markersRef}
-            highlightNoteId={highlightNoteId}
-          />
-        )}
-      </div>
+        <UserNoteListComponent
+          name="My Notes"
+          markersRef={markersRef}
+          mapRef={mapRef}
+          userMapNotes={userMapNotes}
+          user={user}
+          highlightNoteId={highlightNoteId}
+          setHighlightNoteId={setHighlightNoteId}
+        />
+      </SidebarComponent>
     </div>
   );
 }

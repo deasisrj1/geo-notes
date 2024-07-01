@@ -85,7 +85,7 @@ export default function EditNoteComponent({
           setEditMarkerPos([]);
           setNoteData({});
         }}
-        className="bg-neutral-900	px-5 overflow-y-auto rounded-lg "
+        className="bg-neutral-900	px-5 overflow-y-auto rounded-lg gap-2 flex flex-col mt-2"
       >
         <input
           type="hidden"
@@ -101,9 +101,9 @@ export default function EditNoteComponent({
         />
         <input type="hidden" name="userId" id="userId" value={user?.id} />
         <input type="hidden" name="noteId" id="noteId" value={noteData?.id} />
-        <label htmlFor="title" className="block py-2 text-lg font-medium">
+        {/* <label htmlFor="title" className="block py-2 text-lg font-medium">
           Title:
-        </label>
+        </label> */}
         <input
           id="title"
           name="title"
@@ -114,9 +114,9 @@ export default function EditNoteComponent({
           required
           className="block p-2.5 w-full text-md  bg-gray-50 rounded-lg border border-gray-300  focus:ring-blue-500 focus:border-blue-500 dark:bg-neutral-800 dark:border-gray-600 dark:placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
-        <label htmlFor="body" className="block py-2 text-lg font-medium	 ">
+        {/* <label htmlFor="body" className="block py-2 text-lg font-medium	 ">
           Your Note:
-        </label>
+        </label> */}
         <textarea
           id="body"
           name="body"
@@ -127,12 +127,12 @@ export default function EditNoteComponent({
           placeholder="Write your thoughts here..."
         />
         <div className=" rounded-md flex flex-col items-start justify-between">
-          <label
+          {/* <label
             htmlFor="visibility"
             className="block py-2 text-lg font-medium	 "
           >
             Visibility:
-          </label>
+          </label> */}
           <select
             value={editVisibility}
             onChange={(e) => setEditVisibility(e.target.value)}

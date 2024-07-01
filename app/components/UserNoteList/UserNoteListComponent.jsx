@@ -41,6 +41,10 @@ export default function UserNoteListComponent({
 
   return (
     <>
+      <h1 className="h-14 text-xl font-bold p-4 border-b-2 border-t-2 border-r">
+        My Notes
+      </h1>
+
       {showEdit && (
         <EditNoteComponent
           setShowEdit={setShowEdit}
@@ -83,9 +87,6 @@ export default function UserNoteListComponent({
                   if (prev) {
                     const marker = markersRef.current[`${prev.id}`];
                     if (marker) {
-                      marker.setPopupContent(
-                        `<p>${prev.title}</p><p>${prev.body}</p>`
-                      );
                       marker.dragging.disable();
                       marker.setZIndexOffset(1);
                     }

@@ -12,7 +12,7 @@ import PublicNotes from "../components/PublicNotes";
 import SidebarMobile from "../components/SidebarMobile";
 import PublicNoteListComponent from "../components/PublicNoteList/PublicNoteListComponent";
 import Footer from "../components/Footer";
-// import Topnav from "../components/TopNav";
+import Topnav from "../components/TopNav";
 const Map = dynamic(() => import("../components/Map/MapComponent"), {
   ssr: false,
 });
@@ -26,13 +26,16 @@ import {
 
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-function Notes({ map, user 
+function Notes({
+  map,
+  user,
 
-  , boundsChange, boundButtonClicked,
-  mapRef, markersRef, highlightNoteId, setBoundButtonClicked
-  
-
-
+  boundsChange,
+  boundButtonClicked,
+  mapRef,
+  markersRef,
+  highlightNoteId,
+  setBoundButtonClicked,
 }) {
   const [publicNotes, setPublicNotes] = useState([]);
 
@@ -113,7 +116,7 @@ export default function Example({ user = null, userMapNotes = [] }) {
   return (
     <>
       <div className="h-full">
-        <Transition show={sidebarOpen}>
+        {/* <Transition show={sidebarOpen}>
           <Dialog className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
             <TransitionChild
               enter="transition-opacity ease-linear duration-300"
@@ -165,7 +168,7 @@ export default function Example({ user = null, userMapNotes = [] }) {
               </TransitionChild>
             </div>
           </Dialog>
-        </Transition>
+        </Transition> */}
 
         <PublicNotes>
           <Notes
@@ -182,7 +185,7 @@ export default function Example({ user = null, userMapNotes = [] }) {
         </PublicNotes>
 
         <div className="h-full lg:pl-72">
-          {/* <Topnav setSidebarOpen={setSidebarOpen}/> */}
+          <Topnav setSidebarOpen={setSidebarOpen} />
           <main className="h-full">
             <div className="h-full">
               <Map {...mapProps} />
@@ -191,7 +194,7 @@ export default function Example({ user = null, userMapNotes = [] }) {
         </div>
       </div>
 
-      <Footer setSidebarOpen={setSidebarOpen} />
+      {/* <Footer setSidebarOpen={setSidebarOpen} /> */}
     </>
   );
 }

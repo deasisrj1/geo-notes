@@ -1,3 +1,3 @@
-export const NEW_NOTE = "new note";
-export const MY_NOTES = "my notes";
-export const PUBLIC_NOTES = "public notes";
+export const NEW_NOTE = "New Note";
+export const MY_NOTES = "My Notes";
+export const PUBLIC_NOTES = "Public Notes";
