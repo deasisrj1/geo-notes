@@ -72,12 +72,20 @@ shape we have
   );
 }
 
-function Form({ id }) {
-  // const handleSubmit = async () => {
-  //   const { error } = await supabase
-  //     .from("comments")
-  //     .insert({ id: 1, name: "Denmark" });
-  // };
+function Form({ postId }) {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  console.log(user)
+    const { error } = await supabase
+      .from("comments")
+      .insert({ post_id: postId, text: "Denmark" });
+  };
   return (
     <div className="flex items-start space-x-4 mb-9">
       <div className="flex-shrink-0">
@@ -88,7 +96,7 @@ function Form({ id }) {
         />
       </div>
       <div className="min-w-0 flex-1">
-        <form action="#" className="relative">
+        <form onSubmit={handleSubmit} className="relative">
           <div className="overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
             <label htmlFor="comment" className="sr-only">
               Add your comment
@@ -132,7 +140,7 @@ export default function Page({ params, searchParams }) {
     () => dynamic(() => import("./PostMap"), { ssr: false }),
     []
   );
-
+  
   const { title, body, firstname, lat, long } = searchParams;
 
   return (
@@ -151,8 +159,8 @@ export default function Page({ params, searchParams }) {
             <h3 className="text-lg mb-3 font-semibold leading-6 text-gray-900">
               Comments
             </h3>
-            <Comments id={params?.id} />
-            <Form />
+            <Comments />
+            <Form postId={params?.id} />
           </div>
         </div>
       </div>

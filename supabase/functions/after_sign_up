@@ -1,8 +1,8 @@
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER LANGUAGE plpgsql AS $$
   BEGIN
-    INSERT INTO public.users(auth_id, first_name, last_name)
-    VALUES(NEW.id, new.raw_user_meta_data ->> 'firstName', new.raw_user_meta_data ->> 'lastName');
+    INSERT INTO public.users(id, auth_id, first_name, last_name)
+    VALUES(NEW.id, NEW.id,new.raw_user_meta_data ->> 'firstName', new.raw_user_meta_data ->> 'lastName');
   
     RETURN NEW;
   END;
