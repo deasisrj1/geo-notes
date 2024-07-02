@@ -14,14 +14,13 @@ import { createClient } from "@/utils/supabase/client";
 //   },
 // ];
 
-
-function Comments() {
-  const [comments,setComments] = useState([])
+function Comments({postId}) {
+  const [comments, setComments] = useState([]);
   useEffect(() => {
     async function getData() {
       const supabase = createClient();
-      const { data, error } = await supabase.from("comments").select();
-      console.log("data",data)
+      const { data, error } = await supabase.from("comments").select().eq('post_id', postId);
+      console.log("data", postId, data);
 
       /*
       shape we need
@@ -42,7 +41,7 @@ shape we have
     "user_id": "81b80d0b-5748-4ce4-bdad-da7d0e24ad5a"
 }
       */
-      setComments(data)
+      setComments(data);
     }
     getData();
   }, []);
@@ -74,17 +73,13 @@ shape we have
 
 function Form({ postId }) {
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const comment = formData.get("comment");
     const supabase = createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  console.log(user)
     const { error } = await supabase
       .from("comments")
-      .insert({ post_id: postId, text: "Denmark" });
+      .insert({ post_id: postId, text: comment });
   };
   return (
     <div className="flex items-start space-x-4 mb-9">
@@ -140,7 +135,7 @@ export default function Page({ params, searchParams }) {
     () => dynamic(() => import("./PostMap"), { ssr: false }),
     []
   );
-  
+
   const { title, body, firstname, lat, long } = searchParams;
 
   return (
@@ -159,7 +154,7 @@ export default function Page({ params, searchParams }) {
             <h3 className="text-lg mb-3 font-semibold leading-6 text-gray-900">
               Comments
             </h3>
-            <Comments />
+            <Comments postId={params?.id}/>
             <Form postId={params?.id} />
           </div>
         </div>
