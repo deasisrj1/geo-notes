@@ -84,11 +84,9 @@ function Form({ postId }) {
   return (
     <div className="flex items-start space-x-4 mb-9">
       <div className="flex-shrink-0">
-        <img
-          className="inline-block h-10 w-10 rounded-full"
-          src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-          alt=""
-        />
+         <div className="inline-block bg-pink-600 flex h-9 w-9 rounded-full flex-none items-center justify-center text-sm font-medium text-white">
+            {comment.name?.[0]}{" "}
+          </div>
       </div>
       <div className="min-w-0 flex-1">
         <form onSubmit={handleSubmit} className="relative">
@@ -143,9 +141,15 @@ export default function Page({ params, searchParams }) {
       <div className="flex flex-col">
         <div className="flex justify-center ">
           <div className="justify-start w-5/6 my-4">
-            <div>{title}</div>
-            <div>{body}</div>
-            <div>{firstname}</div>
+            <h1 className="text-xl my-2 font-semibold leading-6 text-gray-900">
+              {title}
+            </h1>
+            <p className="text-md leading-6 text-gray-700">
+              {body}
+            </p>
+            <p className="text-xs leading-1 text-slate-700">
+              by {firstname}
+            </p>
           </div>
         </div>
         <Map lat={lat} long={long} />
