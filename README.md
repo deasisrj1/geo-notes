@@ -7,6 +7,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 -- try to do supabase auth, database, and storage
 -- if you can successfully do that, you'll be able to know what's going on in this project
 
+## TODO
+-- add the db trigger on npm run dev
 
 ### Env variables
 create a .env.local file
@@ -21,6 +23,26 @@ make sure you go to your database table and go to schema auth that the trigger i
 also go check the sql function you created is also there
 If you register a new account and your public.users table gets populated that means its working, if not
 something didnt work
+
+```
+-- inserts a row into public.profiles
+create function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer set search_path = ''
+as $$
+begin
+  insert into public.profiles (id, first_name, last_name)
+  values (new.id, new.raw_user_meta_data ->> 'first_name', new.raw_user_meta_data ->> 'last_name');
+  return new;
+end;
+$$;
+
+-- trigger the function every time a user is created
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();
+```
 
 ```
 -- $ supabase start

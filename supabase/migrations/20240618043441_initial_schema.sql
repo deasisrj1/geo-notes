@@ -18,7 +18,8 @@ create table "public"."map_notes" (
 alter table "public"."map_notes" enable row level security;
 
 create table "public"."users" (
-    "id" uuid not null default gen_random_uuid(),
+    -- "id" uuid not null default gen_random_uuid(),
+    "id" uuid not null references auth.users on delete cascade,
     "created_at" timestamp with time zone not null default now(),
     "auth_id" uuid not null default auth.uid(),
     "first_name" text not null default ''::text,
@@ -107,8 +108,8 @@ CREATE OR REPLACE FUNCTION public.handle_new_user()
  LANGUAGE plpgsql
  SECURITY DEFINER
 AS $function$begin
-  insert into public.users (auth_id, first_name, last_name)
-  values (new.id, new.raw_user_meta_data ->> 'firstName', new.raw_user_meta_data ->> 'lastName');
+  insert into public.users (id, auth_id, first_name, last_name)
+  values (new.id, new.id, new.raw_user_meta_data ->> 'firstName', new.raw_user_meta_data ->> 'lastName');
   return new;
 end;$function$
 ;
